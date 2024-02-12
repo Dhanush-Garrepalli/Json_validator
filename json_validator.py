@@ -1,33 +1,13 @@
 import streamlit as st
 import json
 
-# Streamlit application layout
-st.title('JSON Validator')
+st.title('JSON Validator and Formatter')
+user_input = st.text_area("Enter your JSON here:", height=300)
 
-# Initialize or update the session state for the text area
-if 'user_input' not in st.session_state:
-    st.session_state['user_input'] = ""
-
-# Text area for user to input JSON, bound to the session state
-user_input = st.text_area("Enter your JSON here:", value=st.session_state['user_input'], height=300)
-
-# Button to validate JSON
-if st.button('Validate JSON'):
+if st.button('Validate and Format JSON'):
     try:
-        # Attempt to load the JSON data
-        parsed_json = json.loads(user_input)
-        # If successful, indicate valid JSON and display it with replaced backslashes
-        formatted_json = json.dumps(parsed_json, indent=4)
-        replaced_json = formatted_json.replace('\', '\\')
-        st.text_area("Validated and Formatted JSON:", value=replaced_json, height=300, key='formatted_json')
+        json.loads(user_input)
         st.success('Valid JSON')
+        st.text_area("Formatted JSON:", value=user_input, height=300, key='formatted_json')
     except ValueError as e:
-        # If error, display it to the user
         st.error(f'Invalid JSON: {e}')
-
-# Button to clear the user input
-if st.button('Clear'):
-    # Clear the text area by setting its value in the session state to an empty string
-    st.session_state['user_input'] = ""
-    # Use st.experimental_rerun() to refresh the page and reflect the cleared state
-    st.experimental_rerun()
