@@ -18,7 +18,7 @@ if st.button('Validate JSON'):
         parsed_json = json.loads(user_input)
         # If successful, indicate valid JSON and display it with replaced backslashes
         formatted_json = json.dumps(parsed_json, indent=4)
-        replaced_json = formatted_json.replace('\\', '\\\\')
+        replaced_json = formatted_json.replace('\', '\\')
         st.text_area("Validated and Formatted JSON:", value=replaced_json, height=300, key='formatted_json')
         st.success('Valid JSON')
     except ValueError as e:
