@@ -15,8 +15,11 @@ user_input = st.text_area("Enter your JSON here:", value=st.session_state['user_
 if st.button('Validate JSON'):
     try:
         # Attempt to load the JSON data
-        json.loads(user_input)
-        # If successful, indicate valid JSON
+        parsed_json = json.loads(user_input)
+        # If successful, indicate valid JSON and display it with replaced backslashes
+        formatted_json = json.dumps(parsed_json, indent=4)
+        replaced_json = formatted_json.replace('\', '\\')
+        st.text_area("Validated and Formatted JSON:", value=replaced_json, height=300, key='formatted_json')
         st.success('Valid JSON')
     except ValueError as e:
         # If error, display it to the user
